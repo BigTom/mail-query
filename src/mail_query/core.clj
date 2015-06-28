@@ -22,6 +22,14 @@
   (fn [req]
     (assoc-in (hdlr req) [:headers "Server"] "Mailgun Log Reader")))
 
+(defn wrap-bounce-favicon [handler]
+  (fn [req]
+    (if (= [:get "/favicon.ico"] [(:request-method req) (:uri req)])
+      {:status 404
+       :headers {}
+       :body ""}
+      (handler req))))
+
 (defn find-email [email delivered-only]
   (let [params (if delivered-only {:recipient email :event "delivered"} {:recipient email})
         options {:timeout      2000   ; ms
@@ -47,6 +55,7 @@
 (def app
   (-> routes
       (wrap-params)
+      (wrap-bounce-favicon)
       (wrap-resource "static")
       (wrap-file-info)
       (wrap-server)))
