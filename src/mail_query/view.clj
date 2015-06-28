@@ -54,6 +54,5 @@
               [:div.pure-u-1 "There are no items."])]
            [:div.pure-u-1
             [:h2 "New Query"]
-            (query-form)]]
-          [:script {:src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"}]]))
+            (query-form)]]]))
 
