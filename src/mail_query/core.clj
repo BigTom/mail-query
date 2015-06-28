@@ -62,7 +62,7 @@
 
 (defn -main
   ([]
-   (-main 80))
+   (-main 8080))
   ([port]
   (http-kit/run-server app
                        {:port (Integer. port)})))
