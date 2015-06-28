@@ -10,11 +10,11 @@
             [compojure.route :refer [not-found]]
             [ring.handler.dump :refer [handle-dump]]
             [org.httpkit.client :as http]
-            [cheshire.core :refer [parse-string]]))
+            [cheshire.core :refer [parse-string]])
+  (:gen-class))
 
 (def mailgun-domain (System/getenv "MAILGUN_DOMAIN"))
 (def mailgun-api-key (System/getenv "MAILGUN_API_KEY"))
-(def app-port (System/getenv "APP_PORT"))
 
 (def resource (str "https://api.mailgun.net/v3/" mailgun-domain "/events"))
 
