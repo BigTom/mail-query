@@ -8,6 +8,6 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 
-mail-query.iml
-mail_query.iml
+/mail-query.iml
+/mail_query.iml
 /.idea
