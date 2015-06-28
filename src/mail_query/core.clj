@@ -60,18 +60,14 @@
       (wrap-file-info)
       (wrap-server)))
 
-(defn -main
-  ([]
-   (-main 8080))
-  ([port]
-  (http-kit/run-server app
-                       {:port (Integer. port)})))
+(defn -main []
+  (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
+    (http-kit/run-server app
+                         {:port port})))
 
-(defn -dev-main
-  ([]
-  (-dev-main 3000))
-  ([port]
-   (http-kit/run-server (wrap-reload #'app)
-                       {:port (Integer. port)})))
+(defn -dev-main []
+  (let [port (Integer/parseInt (or (System/getenv "PORT") "3000"))]
+    (http-kit/run-server (wrap-reload #'app)
+                       {:port port})))
 
 
