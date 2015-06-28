@@ -1,0 +1,13 @@
+/target
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+
+mail-query.iml
+mail_query.iml
+/.idea
