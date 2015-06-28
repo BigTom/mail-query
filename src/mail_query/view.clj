@@ -31,7 +31,7 @@
           [:title "Mail Delivery"]
           [:meta {:name    :viewport
                   :content "width=device-width, initial-scale=1.0"}]
-          [:link {:href "pure/pure-min.css"
+          [:link {:href "http://yui.yahooapis.com/pure/0.6.0/pure-min.css"
                   :rel  :stylesheet}]]
          [:body
           [:div.pure-g
