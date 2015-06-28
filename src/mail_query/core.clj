@@ -14,6 +14,7 @@
 
 (def mailgun-domain (System/getenv "MAILGUN_DOMAIN"))
 (def mailgun-api-key (System/getenv "MAILGUN_API_KEY"))
+(def app-port (System/getenv "APP_PORT"))
 
 (def resource (str "https://api.mailgun.net/v3/" mailgun-domain "/events"))
 
@@ -50,12 +51,18 @@
       (wrap-file-info)
       (wrap-server)))
 
-(defn -main [port]
+(defn -main
+  ([]
+   (-main 80))
+  ([port]
   (http-kit/run-server app
-                       {:port (Integer. port)}))
+                       {:port (Integer. port)})))
 
-(defn -dev-main [port]
-  (http-kit/run-server (wrap-reload #'app)
-                       {:port (Integer. port)}))
+(defn -dev-main
+  ([]
+  (-dev-main 3000))
+  ([port]
+   (http-kit/run-server (wrap-reload #'app)
+                       {:port (Integer. port)})))
 
 
