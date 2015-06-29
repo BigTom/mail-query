@@ -6,6 +6,18 @@
 
 (def custom-formatter (formatter "EEE dd/MMM/yyyy hh:mm:ss z"))
 
+(defn not-found-page []
+  (html5
+    {:lang :en}
+    [:head
+     [:title "Mail Delivery"]
+     [:meta {:name    :viewport
+             :content "width=device-width, initial-scale=1.0"}]
+     [:link {:href "pure/pure-min.css"
+             :rel  :stylesheet}]]
+    [:body
+     [:h2.pure-u-1 "Sorry, this page could not be found"]]))
+
 (defn query-form []
   (html
     [:form.pure-form

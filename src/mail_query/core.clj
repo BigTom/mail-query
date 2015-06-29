@@ -1,5 +1,5 @@
 (ns mail-query.core
-  (:require [mail-query.view :refer [results-page]])
+  (:require [mail-query.view :refer [results-page not-found-page]])
   (:require [org.httpkit.server :as http-kit]
             [ring.util.response :refer [response]]
             [ring.middleware.reload :refer [wrap-reload]]
@@ -22,17 +22,9 @@
   (fn [req]
     (assoc-in (hdlr req) [:headers "Server"] "Mailgun Log Reader")))
 
-(defn wrap-bounce-favicon [handler]
-  (fn [req]
-    (if (= [:get "/favicon.ico"] [(:request-method req) (:uri req)])
-      {:status 404
-       :headers {}
-       :body ""}
-      (handler req))))
-
 (defn find-email [email delivered-only]
   (let [params (if delivered-only {:recipient email :event "delivered"} {:recipient email})
-        options {:timeout      2000   ; ms
+        options {:timeout      2000                         ; ms
                  :limit        10
                  :basic-auth   ["api" mailgun-api-key]
                  :query-params params
@@ -40,7 +32,7 @@
         {:keys [body error]} @(http/get resource options)]
     (if error
       (response (str "Failed, exception: " error))
-        (results-page (parse-string body)))))
+      (results-page (parse-string body)))))
 
 (defn handle-log-query [req]
   (let [email (get-in req [:params "recipient"])
@@ -48,14 +40,13 @@
     (find-email email delivered-only)))
 
 (defroutes routes
-           (GET "/find"  [] handle-log-query)
-           (GET "/"      [] handle-log-query)
-           (not-found "Page not found."))
+           (GET "/find" [] handle-log-query)
+           (GET "/" [] handle-log-query)
+           (not-found (not-found-page)))
 
 (def app
   (-> routes
       (wrap-params)
-      (wrap-bounce-favicon)
       (wrap-resource "static")
       (wrap-file-info)
       (wrap-server)))
@@ -68,6 +59,6 @@
 (defn -dev-main []
   (let [port (Integer/parseInt (or (System/getenv "PORT") "3000"))]
     (http-kit/run-server (wrap-reload #'app)
-                       {:port port})))
+                         {:port port})))
 
 
