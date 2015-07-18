@@ -1,10 +1,8 @@
 #! /bin/bash
 #Send a test e-mail for mailgun event log
 
-# Update EMAIL to an email address that works
+# Update EMAIL to an email address that works e.g. EMAIL='xxx.yyy@zzz.com'
 # MAILGUN_DOMAIN & MAILGUN_API_KEY should have the same values as for the webapp
-
-EMAIL='xxx.yyy@zzz.com'
 
 curl --verbose -s --user api:${MAILGUN_API_KEY} \
 	https://api.mailgun.net/v3/${MAILGUN_DOMAIN}/messages \

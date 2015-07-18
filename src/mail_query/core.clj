@@ -6,6 +6,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.file-info :refer [wrap-file-info]]
+            [ring.middleware.basic-authentication :refer [wrap-basic-authentication]]
             [compojure.core :refer [defroutes ANY GET PUT POST DELETE]]
             [compojure.route :refer [not-found]]
             [ring.handler.dump :refer [handle-dump]]
@@ -15,6 +16,7 @@
 
 (def mailgun-domain (System/getenv "MAILGUN_DOMAIN"))
 (def mailgun-api-key (System/getenv "MAILGUN_API_KEY"))
+(def mailgun-admin-pwd (System/getenv "MAILGUN_ADMIN_PWD"))
 
 (def resource (str "https://api.mailgun.net/v3/" mailgun-domain "/events"))
 
@@ -44,11 +46,18 @@
            (GET "/" [] handle-log-query)
            (not-found (not-found-page)))
 
+(defn authenticated? [name pass]
+  (println "name: " name " pass: " pass)
+  (and (= name "admin")
+       (= pass mailgun-admin-pwd)))
+
 (def app
   (-> routes
+      (wrap-reload)
       (wrap-params)
       (wrap-resource "static")
       (wrap-file-info)
+      (wrap-basic-authentication authenticated?)
       (wrap-server)))
 
 (defn -main []

@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [http-kit "2.1.18"]
                  [ring "1.3.2"]
+                 [ring-basic-authentication "1.0.5"]
                  [compojure "1.3.4"]
                  [hiccup "1.0.5"]
                  [cheshire "5.4.0"]
