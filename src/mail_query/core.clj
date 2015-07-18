@@ -47,7 +47,6 @@
            (not-found (not-found-page)))
 
 (defn authenticated? [name pass]
-  (println "name: " name " pass: " pass)
   (and (= name "admin")
        (= pass mailgun-admin-pwd)))
 
