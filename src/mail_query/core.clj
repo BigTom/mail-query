@@ -53,7 +53,6 @@
 
 (def app
   (-> routes
-      (wrap-reload)
       (wrap-params)
       (wrap-resource "static")
       (wrap-file-info)
